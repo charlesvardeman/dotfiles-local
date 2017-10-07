@@ -52,6 +52,7 @@ brew "typescript"
 brew "zeromq"
 brew "zplug"
 brew "zsh-completions"
+brew "zsh-syntax-highlighting"
 cask "google-cloud-sdk"
 EOF
 

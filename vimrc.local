@@ -1,0 +1,37 @@
+scriptencoding utf-8
+set encoding=utf-8
+
+"  New from scratch vimrc starting from.
+" https://blog.hellojs.org/configure-vim-from-scratch-efe5cbc1c563
+" https://github.com/dougblack/dotfiles/blob/master/.vimrc
+" https://medium.com/@kadek/learning-vim-what-i-wish-i-knew-b5dca186bef7
+"
+
+" Colors {{{
+" Grubbox
+" for vim 7
+set t_Co=256
+
+if (has("termguicolors"))
+ set termguicolors
+endif
+" Gruvbox " """""""""""""""""""""""""""""""""""
+set background=dark
+colorscheme gruvbox
+let g:gruvbox_contrast_dark='hard'
+let g:gruvbox_contrast_light='hard'
+" }}}
+"
+
+
+" Fix stupid mac clipboard
+" Sierra Copy Paste Issues Solution Per
+" https://github.com/tmux/tmux/issues/543#issuecomment-248980734
+set clipboard=unnamed
+
+" Change map leader to ,
+let mapleader = ","
+
+" Ag """""""""""""""""""""""""""""""""""""""""""
+" setup Ag as leader+g
+nnoremap <leader>g :Ag<Space>

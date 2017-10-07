@@ -1,0 +1,10 @@
+" Colors
+
+Plug 'morhetz/gruvbox'
+Plug 'sjl/badwolf'
+Plug 'itchyny/lightline.vim'
+Plug 'shinchu/lightline-gruvbox.vim'
+Plug 'christoomey/vim-tmux-navigator'
+Plug 'melonmanchan/vim-tmux-resizer'
+Plug 'tpope/vim-unimpaired'
+Plug 'christoomey/vim-tmux-runner'
