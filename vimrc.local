@@ -13,21 +13,84 @@ set encoding=utf-8
 set t_Co=256
 
 if (has("termguicolors"))
- set termguicolors
+" set termguicolors
 endif
 " Gruvbox " """""""""""""""""""""""""""""""""""
 set background=dark
 colorscheme gruvbox
 let g:gruvbox_contrast_dark='hard'
 let g:gruvbox_contrast_light='hard'
-" }}}
+
+" Lightline setup
 "
+let g:lightline = {
+      \ 'colorscheme': 'gruvbox',
+      \ 'tab': {
+      \   'active': [ 'filename' ],
+      \   'inactive': [ 'filename' ]
+      \ },
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ], [ 'readonly', 'filename' ] ],
+      \   'right': [ [ 'lineinfo' ], [ 'percent' ], [ 'filetype', 'fileencoding', 'fileformat' ] ]
+      \ },
+      \ 'component': {
+      \   'readonly': '%{&filetype=="help"?"HELP":&readonly?"RO":""}'
+      \ },
+      \ 'component_function': {
+      \   'mode': 'utils#lightLineMode',
+      \   'filename': 'utils#lightLineFilename',
+      \   'filetype': 'utils#lightLineFiletype',
+      \   'fileformat': 'utils#lightLineFileformat',
+      \   'fileencoding': 'utils#lightLineFileencoding'
+      \ },
+      \ 'component_visible_condition': {
+      \   'readonly': '(&readonly)'
+      \ },
+      \ 'separator': { 'left': 'ÓÇ∞', 'right': 'ÓÇ≤' },
+      \ 'subseparator': { 'left': 'ÓÇ±', 'right': 'ÓÇ≥' }
+      \ }
 
 
+
+
+" }}}
+
+" Folding {{{
+"=== folding ===
+set foldmethod=indent   " fold based on indent level
+set foldnestmax=10      " max 10 depth
+set foldenable          " don't fold files by default on open
+nnoremap <space> za
+set foldlevelstart=10   " start with fold level of 1
+" }}}
+
+" Settings {{{
 " Fix stupid mac clipboard
 " Sierra Copy Paste Issues Solution Per
 " https://github.com/tmux/tmux/issues/543#issuecomment-248980734
 set clipboard=unnamed
+
+set cursorline    " I like seeing a visual queue for the line I am on
+
+"
+" Netrw
+
+" We don't need any stinkin nerdtree, er badgers er badges...
+" absolute width of netrw window
+let g:netrw_winsize = -28
+
+" tree-view
+let g:netrw_liststyle = 3
+
+" sort is affecting only: directories on the top, files below
+let g:netrw_sort_sequence = '[\/]$,*'
+
+" open file in a new tab
+let g:netrw_browse_split = 3
+" Set banner to not display
+let g:netrw_banner = 0
+
+
 
 " Change map leader to ,
 let mapleader = ","
@@ -35,3 +98,53 @@ let mapleader = ","
 " Ag """""""""""""""""""""""""""""""""""""""""""
 " setup Ag as leader+g
 nnoremap <leader>g :Ag<Space>
+" }}}
+
+" Key Settings {{{
+"
+" use jj to quickly escape to normal mode while typing <- AWESOME tip
+inoremap jj <ESC>
+
+" insert newline without entering insert mode
+map <CR> o<Esc>k
+
+" reloads .vimrc -- making all changes active
+map <silent> <Leader>v :source ~/.vimrc<CR>:PlugInstall<CR>:bdelete<CR>:exe ":echo 'vimrc reloaded'"<CR>
+
+" the write sudo trick made easy (for those, like me, who always forget the syntax)
+cmap w!! %!sudo tee > /dev/null %
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Leader C prefix is for code related mappings (completion, tidy, documentation...)
+
+" noremap <silent> <Leader>cc          :TComment<CR>              "tcomment_vim
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Leader F prefix is for file related mappings (open, browse...)
+
+nnoremap <silent> <Leader>f :CtrlP<CR>                          "ctrlp.vim
+nnoremap <silent> <Leader>fm :CtrlPMRU<CR>                      "ctrlp.vim
+
+" don't need NerdTree, Netrw is enough for me
+nnoremap <silent> <Leader>fe :Lexplore <CR>
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Leader B prefix is for buffer related mappings
+
+nnoremap <silent> <Leader>b  :CtrlPBuffer<CR>                   "ctrlp.vim
+nnoremap <silent> <Leader>bb :bn<CR>
+nnoremap <silent> <Leader>bd :bdelete<CR>
+
+" (un)lock the current buffer to prevent modification
+nnoremap <silent> <Leader>bl :set nomodifiable<CR>
+nnoremap <silent> <Leader>bu :set modifiable<CR>
+
+
+" }}}
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Leader G prefix is for SCM (mainly git) related mappings
+" vim:foldmethod=marker:foldlevel=0

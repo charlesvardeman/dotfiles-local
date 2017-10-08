@@ -1,0 +1,15 @@
+export TERM=screen-256color
+
+# zsh tmux settings
+ZSH_TMUX_AUTOSTART='true'
+
+
+# Flexible pyebv configuration from
+# https://medium.com/@henriquebastos/the-definitive-guide-to-setup-my-python-workspace-628d68552e14
+
+export WORKON_HOME=~/.ve
+export PROJECT_HOME=~/code/src/github.com/charlesvardeman
+
+export PATH=$PATH:/usr/local/bin:/Users/cvardema/bin
+export GOPATH=/Users/jessicadeen/go
+export PATH=$GOPATH/bin:$PATH
