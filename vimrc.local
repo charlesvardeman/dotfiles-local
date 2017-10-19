@@ -22,34 +22,11 @@ let g:gruvbox_contrast_dark='hard'
 let g:gruvbox_contrast_light='hard'
 
 " Lightline setup
-"
+set laststatus=2
+set noshowmode  " Since lightline shoes the mode anyway.
 let g:lightline = {
       \ 'colorscheme': 'gruvbox',
-      \ 'tab': {
-      \   'active': [ 'filename' ],
-      \   'inactive': [ 'filename' ]
-      \ },
-      \ 'active': {
-      \   'left': [ [ 'mode', 'paste' ], [ 'readonly', 'filename' ] ],
-      \   'right': [ [ 'lineinfo' ], [ 'percent' ], [ 'filetype', 'fileencoding', 'fileformat' ] ]
-      \ },
-      \ 'component': {
-      \   'readonly': '%{&filetype=="help"?"HELP":&readonly?"RO":""}'
-      \ },
-      \ 'component_function': {
-      \   'mode': 'utils#lightLineMode',
-      \   'filename': 'utils#lightLineFilename',
-      \   'filetype': 'utils#lightLineFiletype',
-      \   'fileformat': 'utils#lightLineFileformat',
-      \   'fileencoding': 'utils#lightLineFileencoding'
-      \ },
-      \ 'component_visible_condition': {
-      \   'readonly': '(&readonly)'
-      \ },
-      \ 'separator': { 'left': 'ÓÇ∞', 'right': 'ÓÇ≤' },
-      \ 'subseparator': { 'left': 'ÓÇ±', 'right': 'ÓÇ≥' }
       \ }
-
 
 
 

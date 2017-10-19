@@ -1,3 +1,56 @@
+export ZPLUG_HOME=/usr/local/opt/zplug
+source $ZPLUG_HOME/init.zsh
+
+# Can manage everything e.g., other person's zshrc
+# zplug "tcnksm/docker-alias", use:zshrc
+
+# Supports oh-my-zsh plugins and the like
+zplug "plugins/git",   from:oh-my-zsh
+
+# Supports oh-my-zsh plugins and the like
+zplug "plugins/pip",   from:oh-my-zsh
+
+# Jsontools
+zplug "plugins/jsontools", from:oh-my-zsh
+
+# Mac Homebrew support
+zplug "plugins/brew", from:oh-my-zsh
+
+zplug "plugins/vi-mode", from:oh-my-zsh
+
+# Tmuxinator project management
+zplug "plugins/tmuxinator", from:oh-my-zsh
+
+# zplug "zsh-users/zsh-syntax-highlighting", defer:2
+zplug "b4b4r07/zsh-vimode-visual", defer:3
+
+zplug "zsh-users/zsh-history-substring-search"
+
+# zsh syntax checker
+zplug "zsh-users/zsh-syntax-highlighting", defer:2
+
+# Apple touchbar support
+zplug "iam4x/zsh-iterm-touchbar"
+
+zmodload zsh/terminfo
+bindkey "$terminfo[kcuu1]" history-substring-search-up
+bindkey "$terminfo[kcud1]" history-substring-search-down
+
+bindkey -M emacs '^P' history-substring-search-up
+bindkey -M emacs '^N' history-substring-search-down
+
+bindkey -M vicmd 'k' history-substring-search-up
+
+
+
+zplug "plugins/npm", from:oh-my-zsh
+
+export NVM_DIR=~/.nvm
+source $(brew --prefix nvm)/nvm.sh
+
+
+
+
 export TERM=screen-256color
 
 # zsh tmux settings
@@ -13,3 +66,133 @@ export PROJECT_HOME=~/code/src/github.com/charlesvardeman
 export PATH=$PATH:/usr/local/bin:/Users/cvardema/bin
 export GOPATH=/Users/jessicadeen/go
 export PATH=$GOPATH/bin:$PATH
+
+
+# Download a github repo to a controlled location
+ghget () {
+    # input: rails/rails
+    USER=$(echo $@ | tr "/" " " | awk '{print $1}')
+    REPO=$(echo $@ | tr "/" " " | awk '{print $2}')
+    mcd "$HOME/code/src/github.com/$USER" && \
+    hub clone $@ && \
+    cd $REPO
+}
+
+# Flexible pyebv configuration from
+# https://medium.com/@henriquebastos/the-definitive-guide-to-setup-my-python-workspace-628d68552e14
+
+export WORKON_HOME=~/.ve
+export PROJECT_HOME=~/code/src/github.com/charlesvardeman
+
+## Setup Python environment
+export PYENV_ROOT=$HOME/.pyenv
+if which pyenv > /dev/null ; then
+  eval "$(pyenv init -)"
+fi
+
+if which pyenv-virtualenv-init > /dev/null; then
+	eval "$(pyenv virtualenv-init -)";
+fi
+pyenv virtualenvwrapper_lazy
+export PATH="$PYENV_ROOT/shims:$HOME/.local/bin/:$PATH"
+# export PIP_REQUIRE_VIRTUALENV=true
+# virtualenv setting
+export PYENV_VIRTUALENV_DISABLE_PROMPT=1
+
+## Go env
+## setup for golang
+#export GOROOT=/usr/local/opt/go/libexec
+#export PATH=$PATH:$GOPATH/bin
+#export PATH=$PATH:$GOROOT/bin
+[[ -s "$HOME/.gvm/scripts/gvm" ]] && source "$HOME/.gvm/scripts/gvm"
+export GOPATH=$HOME/code
+export PATH=$PATH:$GOPATH/bin:/usr/local/opt/go/libexec/bin
+
+## Ruby Environment
+## Rbenv
+if which rbenv > /dev/null;
+  then eval "$(rbenv init -)";
+fi
+export PATH="$HOME/.rbenv/shims:$PATH"
+
+# Android Development
+# path for adb (Android Studio 1.0.xx)
+if [[ -d $HOME/Library/Android/sdk/platform-tools ]]; then
+  export PATH="$PATH:""$HOME/Library/Android/sdk/platform-tools"
+fi
+
+
+# Environment for google cloud platform
+# Installed via homebrew cask google-cloud-sdk
+[ -f /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc ] && source '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc'
+[ -f  /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc ] && source '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc'
+# if (( $+commands[brew] )) ; then
+#  export PATH="$(brew --prefix)/Caskroom/google-cloud-sdk/bin:$PATH"
+# fi
+
+# Set up ripgrep instead of silver searcher
+# https://medium.com/@crashybang/supercharge-vim-with-fzf-and-ripgrep-d4661fc853d2
+# --files: List files that would be searched but do not search
+# --no-ignore: Do not respect .gitignore, etc...
+# --hidden: Search hidden files and folders
+# --follow: Follow symlinks
+# --glob: Additional conditions for search (in this case ignore everything in the .git/ folder)
+export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/*"'
+
+if ! zplug check --verbose; then
+    printf "Install? [y/N]: "
+    if read -q; then
+        echo; zplug install
+    fi
+fi
+
+# Then, source plugins and add commands to $PATH
+# zplug load --verbose
+zplug load
+
+# Load compinit after all fpaths are set
+autoload -U compinit
+compinit
+
+
+# User configuration
+
+###
+# History
+###
+
+setopt APPEND_HISTORY          # history appends to existing file
+setopt HIST_REDUCE_BLANKS      # trim multiple insgnificant blanks in history
+HISTCONTROL=ignoreboth
+HISTFILESIZE=1000000
+HISTSIZE=10000000               # number of history lines kept internally
+SAVEHIST=10000000               # max number of history lines saved
+
+
+# You may need to manually set your language environment
+# export LANG=en_US.UTF-8
+
+export EDITOR="nvim"
+
+which tig >/dev/null     && alias tig=tig --all
+
+function f() { find . -iname "*$1*" ${@:2} }
+
+function r() { grep "$1" ${@:2} -R . }
+
+# ssh
+# export SSH_KEY_PATH="~/.ssh/rsa_id"
+
+# Set personal aliases, overriding those provided by oh-my-zsh libs,
+# plugins, and themes. Aliases can be placed here, though oh-my-zsh
+# users are encouraged to define aliases within the ZSH_CUSTOM folder.
+# For a full list of active aliases, run `alias`.
+
+# tab completion for my defined profiles
+compctl -k "(gruvbox adwaita blaziken animeswing koe display changer blaziken2)" prof
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# Load fasd
+[ -f /usr/local/bin/fasd ] && eval "$(fasd --init auto)"
+
+

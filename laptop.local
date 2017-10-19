@@ -56,6 +56,8 @@ brew "zsh-completions"
 brew "zsh-autosuggestions"
 brew "zsh-syntax-highlighting"
 cask "google-cloud-sdk"
+cask "iterm2"
+cask "android-studio"
 EOF
 
 fancy_echo 'Checking on Python installation...'
